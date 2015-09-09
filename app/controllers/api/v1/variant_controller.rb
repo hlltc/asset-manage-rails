@@ -1,6 +1,6 @@
 class Api::V1::VariantController < Api::V1::BaseController
   # GET /variant
-  # GET /uploads.json
+  # GET /variant.json
   def index
     @variant = Variant.all
 
@@ -10,8 +10,8 @@ class Api::V1::VariantController < Api::V1::BaseController
     end
   end
 
-  # GET /uploads/1
-  # GET /uploads/1.json
+  # GET /variant/1
+  # GET /variant/1.json
   def show
     @variant = Variant.find(params[:id])
 
@@ -21,8 +21,8 @@ class Api::V1::VariantController < Api::V1::BaseController
     end
   end
 
-  # GET /uploads/new
-  # GET /uploads/new.json
+  # GET /variant/new
+  # GET /variant/new.json
   def new
     @variant = Variant.new
 
@@ -32,13 +32,13 @@ class Api::V1::VariantController < Api::V1::BaseController
     end
   end
 
-  # GET /uploads/1/edit
+  # GET /variant/1/edit
   def edit
     @variant = Variant.find(params[:id])
   end
 
-  # POST /uploads
-  # POST /uploads.json
+  # POST /variant
+  # POST /variant.json
   def create
     @variant = Variant.new(variant_params)
 
@@ -57,14 +57,14 @@ class Api::V1::VariantController < Api::V1::BaseController
     end
   end
 
-  # PUT /uploads/1
-  # PUT /uploads/1.json
+  # PUT /variant/1
+  # PUT /variant/1.json
   def update
     @variant = Variant.find(params[:id])
 
     respond_to do |format|
-      if @variant.update_attributes(params[:upload])
-        format.html { redirect_to @variant, notice: 'Upload was successfully updated.' }
+      if @variant.update_attributes(params[:attach])
+        format.html { redirect_to @variant, notice: 'Attach was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -73,14 +73,14 @@ class Api::V1::VariantController < Api::V1::BaseController
     end
   end
 
-  # DELETE /uploads/1
-  # DELETE /uploads/1.json
+  # DELETE /variant/1
+  # DELETE /variant/1.json
   def destroy
     @variant = Variant.find(params[:id])
     @variant.destroy
 
     respond_to do |format|
-      format.html { redirect_to uploads_url }
+      format.html { redirect_to variant_url }
       format.json { head :no_content }
     end
   end
@@ -89,6 +89,6 @@ class Api::V1::VariantController < Api::V1::BaseController
   private
 
   def variant_params
-    params.require(:variant).permit(:device, :size, :language, :description, :file)
+    params.require(:variant).permit(:device, :size, :language, :description, :attach)
   end
 end

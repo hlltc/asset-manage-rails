@@ -1,0 +1,2 @@
+module AssetVariantHelper
+end

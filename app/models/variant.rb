@@ -18,6 +18,7 @@ class Variant < ActiveRecord::Base
       "device" => read_attribute(:device),
       "size" => read_attribute(:size),
       "language" => read_attribute(:language),
+      "version" => read_attribute(:id),
       "file_name" => read_attribute(:attach_file_name),
       "file_size" => read_attribute(:attach_file_size),
       "content_type" => read_attribute(:attach_content_type),

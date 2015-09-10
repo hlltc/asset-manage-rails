@@ -2,11 +2,11 @@ class Api::V1::VariantController < Api::V1::BaseController
   # GET /variant
   # GET /variant.json
   def index
-    @variant = Variant.all
+    @variants = Variant.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @variant.map{|variant| variant.to_jq_upload } }
+      format.json { render json: @variants.map {|variant| variant.info_to_json}}
     end
   end
 
@@ -17,7 +17,7 @@ class Api::V1::VariantController < Api::V1::BaseController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @variant }
+      format.json { render json: {variant: @variant.info_to_json}}
     end
   end
 
@@ -28,7 +28,7 @@ class Api::V1::VariantController < Api::V1::BaseController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @variant }
+      format.json { render json: {variant: @variant.info_to_json}}
     end
   end
 
@@ -40,16 +40,17 @@ class Api::V1::VariantController < Api::V1::BaseController
   # POST /variant
   # POST /variant.json
   def create
+
     @variant = Variant.new(variant_params)
 
     respond_to do |format|
       if @variant.save
         format.html {
-          render :json => [@variant.to_jq_upload].to_json,
-          :content_type => 'text/html',
-          :layout => false
+          render  :json => [@variant.to_jq_upload].to_json,
+                  :content_type => 'text/html',
+                  :layout => false
         }
-        format.json { render json: {files: [@variant.to_jq_upload]}, status: :created, location: @variant }
+        format.json { render json: {variant: @variant.info_to_json}}
       else
         format.html { render action: "new" }
         format.json { render json: @variant.errors, status: :unprocessable_entity }
@@ -63,7 +64,7 @@ class Api::V1::VariantController < Api::V1::BaseController
     @variant = Variant.find(params[:id])
 
     respond_to do |format|
-      if @variant.update_attributes(params[:attach])
+      if @variant.update_attributes(variant_params)
         format.html { redirect_to @variant, notice: 'Attach was successfully updated.' }
         format.json { head :no_content }
       else

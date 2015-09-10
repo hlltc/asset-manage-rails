@@ -3,6 +3,8 @@ class Variant < ActiveRecord::Base
   has_attached_file :attach
   validates_attachment :attach, content_type: { content_type: "image/jpeg" }
 
+  belongs_to :asset
+
   validates :device, :size, :language, presence: true
   validates_inclusion_of :device, :in => %w(all Android iPhone iPad), :message => "%{value} is not included in the device list"
   validates_inclusion_of :size, :in => %w(all 320x480 320x568 375x667 414x736 768x1024), :message => "%{value} is not included in the size list"

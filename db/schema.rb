@@ -11,14 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150909043932) do
+ActiveRecord::Schema.define(version: 20150910015804) do
+
+  create_table "assets", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "variants", force: :cascade do |t|
     t.string   "device"
     t.string   "size"
     t.string   "language"
-    t.text     "description"
-    t.string   "md5"
+    t.integer  "asset_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.string   "attach_file_name"
@@ -26,5 +32,7 @@ ActiveRecord::Schema.define(version: 20150909043932) do
     t.integer  "attach_file_size"
     t.datetime "attach_updated_at"
   end
+
+  add_index "variants", ["asset_id"], name: "index_variants_on_asset_id"
 
 end

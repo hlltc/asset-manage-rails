@@ -2,15 +2,24 @@ class Api::V1::AssetController < Api::V1::BaseController
   # GET /asset
   # GET /asset.json
   def index
-    @assets = Asset.all
-    render json: {assets: @assets.map {|asset| asset.info_to_json}}
+    @order_by = params[:_sortField] ? params[:_sortField] : "created_at"
+    @order_dir = params[:_sortDir] ? params[:_sortDir] : "DESC"
+    @order = @order_by+" "+@order_dir
+    @page = (params[:_page] && params[:_page].class=="Fixnum" && params[:_page]>0) ? params[:_page] : 1
+    @page_size = (params[:_perPage] && params[:_perPage].class=="Fixnum" && params[:_perPage]>0) ? params[:_perPage] : 20
+
+    @assets = Asset.where({})
+                  .order(@order)
+                  .limit(@page_size)
+                  .offset(@page_size*(@page-1))
+    render json: @assets
   end
 
   # GET /asset/1
   # GET /asset/1.json
   def show
     @asset = Asset.find(params[:id])
-    render json: {asset: @asset.info_to_json}
+    render json: @asset
   end
 
 
@@ -19,7 +28,7 @@ class Api::V1::AssetController < Api::V1::BaseController
   def create
     @asset = Asset.new(asset_params)
     if @asset.save
-      render json: {asset: @asset.info_to_json}
+      render json: @asset
     else
       render json: @asset.errors, status: :unprocessable_entity
     end

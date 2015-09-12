@@ -1,7 +1,5 @@
 /*global angular*/
 (function () {
-    "use strict";
-
     var app = angular.module('myApp', ['ng-admin']);
 
     app.config(['NgAdminConfigurationProvider', 'RestangularProvider', function (NgAdminConfigurationProvider, RestangularProvider) {
@@ -17,15 +15,16 @@
         // use the custom query parameters function to format the API request correctly
         RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
             if(params._filters && typeof params._filters == 'object'){
+                var keys = [];
                 for(var key in params._filters){
-                    if(params._filters.hasOwnProperty(key)){
+                    if(params._filters.hasOwnProperty(key) && key.indexOf('_id')>0){
                         params[key] = params._filters[key];
+                        keys.push(key);
                     }
                 }
-
-                delete params._filters;
+                for(var key in keys)
+                    delete params._filters.key;
             }
-
             return { params: params };
         });
 
@@ -51,7 +50,6 @@
 
         asset.listView()
             .title('List all assets')
-            .infinitePagination(true)
             .fields([
                 nga.field('id'),
                 nga.field('title').map(truncate),
@@ -87,7 +85,7 @@
                     .sortDir('DESC'),
             ]);
         asset.editionView()
-            .title('Edit asset "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
+            .title('Edit asset #{{ entry.values.id }}') // title() accepts a template string, which has access to the entry
             .actions(['list', 'show', 'delete']) // choose which buttons appear in the top action bar. Show is disabled by default
             .fields([
                 asset.creationView().fields(), // fields() without arguments returns the list of fields. That way you can reuse fields from another view to avoid repetition
@@ -170,12 +168,39 @@
                     .label('Created At')
             ]);
         variant.editionView()
-            .title('Edit variant "{{ entry.values.title }}"') // title() accepts a template string, which has access to the entry
+            .title('Edit variant #{{ entry.values.id }}') // title() accepts a template string, which has access to the entry
             .actions(['list', 'show', 'delete']) // choose which buttons appear in the top action bar. Show is disabled by default
             .fields([
-                variant.creationView().fields(), // fields() without arguments returns the list of fields. That way you can reuse fields from another view to avoid repetition
+                variant.creationView().fields(),
+                nga.field('attach', 'template').label('Attach file').template('<attach-file entry="entry"></attach-file>')     
             ]);
 
         nga.configure(admin);
+    }]);
+
+    var uploadTemplate = '<div class="btn btn-success btn-s" ngf-select="upload($file)">Select file to upload</div>';
+    app.directive('attachFile', ['Upload', 'notification', function (Upload, notification) {
+        return {
+            scope: { entry: '&' },
+            template: uploadTemplate,
+            link: function ($scope) {
+                // upload on file select or drop
+                $scope.upload = function (file) {
+                    if(file && $scope.entry().values.id){
+                        console.log(file);
+                        Upload.upload({
+                            url: '/v1/variant/'+$scope.entry().values.id,
+                            method: 'PUT',
+                            file: file,
+                            fileFormDataName: 'variant[attach]',
+                        }).success(function (data, status, headers, config) {
+                            notification.log('File upload succeeded: ' + file.name, {addnCls: 'humane-flatty-success'});
+                        }).error(function (data, status, headers, config) {
+                            notification.log('File upload failed, error: ' + data['attach_content_type'], {addnCls: 'humane-flatty-error'});
+                        })
+                    }
+                };
+            }
+        };
     }]);
 }());

@@ -6,9 +6,9 @@ class Asset < ActiveRecord::Base
 
   def info_to_json
     {
-      "id" => read_attribute(:id),
-      "title" => read_attribute(:title),
-      "description" => read_attribute(:description)
+      "id" => :id,
+      "title" => :title,
+      "description" => :description
     }
   end
 end

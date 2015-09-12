@@ -1,7 +1,7 @@
 class Variant < ActiveRecord::Base
 
   has_attached_file :attach
-  validates_attachment :attach, content_type: { content_type: "image/jpeg" }
+  do_not_validate_attachment_file_type :attach
 
   belongs_to :asset
 
@@ -14,16 +14,16 @@ class Variant < ActiveRecord::Base
 
   def info_to_json
     {
-      "id" => read_attribute(:id),
-      "device" => read_attribute(:device),
-      "size" => read_attribute(:size),
-      "language" => read_attribute(:language),
-      "asset_id" => read_attribute(:asset_id),
-      "version" => read_attribute(:id),
-      "created_at" => read_attribute(:created_at),
-      "file_name" => read_attribute(:attach_file_name),
-      "file_size" => read_attribute(:attach_file_size),
-      "content_type" => read_attribute(:attach_content_type),
+      "id" => :id,
+      "device" => :device,
+      "size" => :size,
+      "language" => :language,
+      "asset_id" => :asset_id,
+      "version" => :id,
+      "created_at" => :created_at,
+      "file_name" => :attach_file_name,
+      "file_size" => :attach_file_size,
+      "content_type" => :attach_content_type,
       "url" => self.attach.url
     }
   end

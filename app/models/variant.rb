@@ -14,16 +14,16 @@ class Variant < ActiveRecord::Base
 
   def info_to_json
     {
-      "id" => :id,
-      "device" => :device,
-      "size" => :size,
-      "language" => :language,
-      "asset_id" => :asset_id,
-      "version" => :id,
-      "created_at" => :created_at,
-      "file_name" => :attach_file_name,
-      "file_size" => :attach_file_size,
-      "content_type" => :attach_content_type,
+      "id" => self.id,
+      "device" => self.device,
+      "size" => self.size,
+      "language" => self.language,
+      "asset_id" => self.asset_id,
+      "version" => self.id,
+      "created_at" => self.created_at,
+      "file_name" => self.attach_file_name,
+      "file_size" => self.attach_file_size,
+      "content_type" => self.attach_content_type,
       "url" => self.attach.url
     }
   end

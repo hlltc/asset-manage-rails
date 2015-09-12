@@ -63,7 +63,7 @@
                 nga.field('title') // the default edit field type is "string", and displays as a text input
                     .attributes({ placeholder: 'the asset title' }) // you can add custom attributes, too
                     .validation({ required: true, minlength: 3, maxlength: 100 }), // add validation rules for fields
-                nga.field('description', 'text'), // text field type translates to a textarea
+                nga.field('description', 'text') // text field type translates to a textarea
             ]);
         asset.showView() // a showView displays one entry in full page - allows to display more data than in a a list
             .fields([
@@ -82,13 +82,13 @@
                         nga.field('file_name')
                     ])
                     .sortField('created_at')
-                    .sortDir('DESC'),
+                    .sortDir('DESC')
             ]);
         asset.editionView()
             .title('Edit asset #{{ entry.values.id }}') // title() accepts a template string, which has access to the entry
             .actions(['list', 'show', 'delete']) // choose which buttons appear in the top action bar. Show is disabled by default
             .fields([
-                asset.creationView().fields(), // fields() without arguments returns the list of fields. That way you can reuse fields from another view to avoid repetition
+                asset.creationView().fields() // fields() without arguments returns the list of fields. That way you can reuse fields from another view to avoid repetition
             ]);
 
         variant.listView()
@@ -163,7 +163,7 @@
                 nga.field('file_name'),
                 nga.field('file_size'),
                 nga.field('content_type'),
-                nga.field('url'),
+                nga.field('url', 'template').label('File link').template('<a href={{entry.values.url}} target="_blank">{{entry.values.url}}</a>'),
                 nga.field('created_at')
                     .label('Created At')
             ]);

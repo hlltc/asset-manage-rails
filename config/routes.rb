@@ -5,4 +5,6 @@ Rails.application.routes.draw do
       resources :variant, except: [:new, :edit]
     end
   end
+
+  root 'admin#index'
 end

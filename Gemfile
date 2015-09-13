@@ -51,3 +51,10 @@ group :development do
   gem 'spring'
 end
 
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-angular', '~> 1.3.15'
+  gem 'rails-assets-ng-admin'
+  gem 'rails-assets-ng-file-upload'
+end
+

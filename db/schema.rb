@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150910015804) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "assets", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
@@ -33,6 +36,6 @@ ActiveRecord::Schema.define(version: 20150910015804) do
     t.datetime "attach_updated_at"
   end
 
-  add_index "variants", ["asset_id"], name: "index_variants_on_asset_id"
+  add_index "variants", ["asset_id"], name: "index_variants_on_asset_id", using: :btree
 
 end

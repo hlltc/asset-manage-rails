@@ -10,8 +10,5 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 
-//= require angular-all-unstable/angular
-//= require angular-all-unstable/angular-resource
 //= require jquery
 //= require jquery_ujs
-//= require_tree .

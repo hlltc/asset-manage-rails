@@ -1,4 +1,9 @@
 /*global angular*/
+
+//= require angular
+//= require ng-admin
+//= require ng-file-upload
+
 (function () {
     var app = angular.module('myApp', ['ng-admin']);
 
@@ -188,15 +193,15 @@
                 $scope.upload = function (file) {
                     if(file && $scope.entry().values.id){
                         console.log(file);
+                        console.log(Upload);
                         Upload.upload({
                             url: '/v1/variant/'+$scope.entry().values.id,
                             method: 'PUT',
-                            file: file,
-                            fileFormDataName: 'variant[attach]',
+                            file: {'variant[attach]': file}
                         }).success(function (data, status, headers, config) {
                             notification.log('File upload succeeded: ' + file.name, {addnCls: 'humane-flatty-success'});
                         }).error(function (data, status, headers, config) {
-                            notification.log('File upload failed, error: ' + data['attach_content_type'], {addnCls: 'humane-flatty-error'});
+                            notification.log('File upload failed: ' + file.name, {addnCls: 'humane-flatty-error'});
                         })
                     }
                 };

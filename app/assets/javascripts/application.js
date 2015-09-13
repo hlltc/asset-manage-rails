@@ -15,7 +15,7 @@
                 return '';
             }
             return value.length > 40 ? value.substr(0, 40) + '...' : value;
-        }
+        };
 
         // use the custom query parameters function to format the API request correctly
         RestangularProvider.addFullRequestInterceptor(function(element, operation, what, url, headers, params) {
@@ -27,8 +27,9 @@
                         keys.push(key);
                     }
                 }
-                for(var key in keys)
+                for(var key in keys){
                     delete params._filters.key;
+                }
             }
             return { params: params };
         });
@@ -192,8 +193,6 @@
                 // upload on file select or drop
                 $scope.upload = function (file) {
                     if(file && $scope.entry().values.id){
-                        console.log(file);
-                        console.log(Upload);
                         Upload.upload({
                             url: '/v1/variant/'+$scope.entry().values.id,
                             method: 'PUT',
@@ -202,7 +201,7 @@
                             notification.log('File upload succeeded: ' + file.name, {addnCls: 'humane-flatty-success'});
                         }).error(function (data, status, headers, config) {
                             notification.log('File upload failed: ' + file.name, {addnCls: 'humane-flatty-error'});
-                        })
+                        });
                     }
                 };
             }

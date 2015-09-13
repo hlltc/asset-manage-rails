@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Asset Managment Admin</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body ng-app="myApp" ng-strict-di>
-
-<%= yield %>
-
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title>Asset management admin</title>
+        <meta name="viewport" content="width=device-width">
+        <%= stylesheet_link_tag "application" %>
+    </head>
+    <body ng-app="myApp" ng-strict-di>
+        <div ui-view></div>
+        <%= javascript_include_tag "application" %>
+    </body>
 </html>

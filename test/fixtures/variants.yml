@@ -4,8 +4,25 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+
+<% device = %w(all Android iPhone iPad) %>
+<% size = %w(all 320x480 320x568 375x667 414x736 768x1024) %>
+<% language = %w(all en zh de fr it) %>
+
+<% 4.times do |n| %>
+  variant_9_asset_<%= n %>:
+    device: all
+    size: all
+    language: all
+    asset: asset_<%= n%>
+<% end %>
+
+<% 4.times do |n| %>
+  <% 9.times do |m| %>
+  variant_<%= m %>_asset_<%= n %>:
+    device: <%= device[rand(device.length)] %>
+    size: <%= size[rand(size.length)] %>
+    language: <%= language[rand(language.length)] %>
+    asset: asset_<%= n%>
+  <% end %>
+<% end %>

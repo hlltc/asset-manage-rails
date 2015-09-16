@@ -110,7 +110,7 @@ class Api::V1::VariantController < Api::V1::BaseController
   private
 
   def variant_params
-    params.require(:variant).permit(:device, :size, :language, :description, :asset_id, :attach)
+    params.require(:variant).permit(:device, :size, :language, :asset_id, :attach)
   end
 
   def query_params

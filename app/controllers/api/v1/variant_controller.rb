@@ -69,14 +69,13 @@ class Api::V1::VariantController < Api::V1::BaseController
 
   # POST /variant
   # POST /variant.json
-  # todo: notify clients creation of new variant
   def create
     @variant = Variant.create(variant_params)
     if @variant.save
+
+      VariantChangeNotifyWorker.perform_async(@variant.id)
+
       render json: @variant.info_to_json
-      puts "---------asset variant creation notify---------"
-      puts @variant.info_to_json
-      puts "-----------------------------------------------"
     else
       render json: @variant.errors, status: :unprocessable_entity
     end
@@ -84,13 +83,12 @@ class Api::V1::VariantController < Api::V1::BaseController
 
   # PUT /variant/1
   # PUT /variant/1.json
-  # todo: notify clients updating of variant
   def update
     @variant = Variant.find(params[:id])
     if @variant.update_attributes(variant_params)
-      puts "---------asset variant updating notify---------"
-      puts @variant.info_to_json
-      puts "-----------------------------------------------"
+
+      VariantChangeNotifyWorker.perform_async(@variant.id)
+
       head :no_content
     else
       render json: @variant.errors, status: :unprocessable_entity

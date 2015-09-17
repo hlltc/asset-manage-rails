@@ -19,6 +19,7 @@ gem "paperclip", "~> 4.3" #file upload
 gem 'rabl'      # API builder
 gem 'oj'        # JSON parser
 gem 'responders' #respond_to
+gem 'sidekiq' #async job
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

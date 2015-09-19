@@ -1,4 +1,6 @@
 class Api::V1::AssetController < Api::V1::BaseController
+  http_basic_authenticate_with name: "admin", password: "admin", except: [:index, :show]
+
   # GET /asset
   # GET /asset.json
   def index

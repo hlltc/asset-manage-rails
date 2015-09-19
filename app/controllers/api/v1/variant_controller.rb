@@ -1,4 +1,6 @@
 class Api::V1::VariantController < Api::V1::BaseController
+  http_basic_authenticate_with name: "admin", password: "admin", except: [:index, :show]
+  
   # GET /variant
   # GET /variant.json
   # todo: when conditions not specified, query would set them to "all", instead of not specifying.

@@ -1,6 +1,7 @@
 ##General Information##
 
 Asset-manage-rails: mobile assets management REST APIs based on Ruby on Rails.  
+  
 **Basic functions**:  
     1. It stores your mobile project asset files, like `css/image/config` files etc.   
     2. For every asset, there are serval corresponding variants, depending on your mobile `device type (all/Android/iPhone/iPad)`, `device resolution (all/320x480/320x568/375x667/414x736/768x1024)` and `language (all/en/zh/de/fr/it)`.  
@@ -34,6 +35,7 @@ Please visit [http://asset-manage-rails.herokuapp.com](http://asset-manage-rails
 **Requirements**:  
     1. PostgresSQL  
     2. Redis  
+  
 **Run tests**:  
 ```ruby
 rake test

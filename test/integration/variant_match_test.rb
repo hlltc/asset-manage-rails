@@ -47,8 +47,7 @@ class VariantMatchTest < ActionDispatch::IntegrationTest
         variant = _variants[rand(_variants.length)]
         device = variant.device
         size = variant.size
-        language = 'it'
-        fetch_variant(@asset_1.id, device, size, language)
+        fetch_variant(@asset_1.id, device, size)
       end
     end
   end
@@ -70,9 +69,7 @@ class VariantMatchTest < ActionDispatch::IntegrationTest
       20.times do |t|
         variant = _variants[rand(_variants.length)]
         device = variant.device
-        size = '768x1024'
-        language = 'it'
-        fetch_variant(@asset_1.id, device, size, language)
+        fetch_variant(@asset_1.id, device)
       end
     end
   end
@@ -89,19 +86,32 @@ class VariantMatchTest < ActionDispatch::IntegrationTest
     #compromise test
     100.times do |t|
       asset_id = assets[rand(assets.length)].id
-      device = 'iPad'
-      size = '768x1024'
-      language = 'it'
-      fetch_variant(asset_id, device, size, language)
+      fetch_variant(asset_id)
     end
   end
 
   private
-  def fetch_variant(asset_id, device, size, language)
+  def fetch_variant(asset_id, device=nil, size=nil, language=nil)
+    device    ||= 'iPad'
+    size      ||= '768x1024'
+    language  ||= 'it'
+
     get '/v1/variant?asset_id='+asset_id.to_s+'&device='+device+'&size='+size+'&language='+language
     assert_response :success
     variants = assigns(:variants)
     assert_not_nil variants
     assert_not_equal 0, variants.length, "none variant matched"
+    variants.each{
+      |item|
+      if language=='it'
+        assert_equal 'all', item.language, "language is not compromised to all"
+      end
+      if size=='768x1024'
+        assert_equal 'all', item.size, "size is not compromised to all"
+      end
+      if device=='iPad'
+        assert_equal 'all', item.device, "device is not compromised to all"
+      end
+    }
   end
 end

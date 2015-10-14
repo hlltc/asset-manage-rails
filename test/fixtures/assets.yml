@@ -4,7 +4,7 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-<% 4.times do |n| %>
+<% 5.times do |n| %>
 asset_<%= n %>:
   title: <%= "asset #{n}" %>
   description: <%= "description of asset #{n}" %>

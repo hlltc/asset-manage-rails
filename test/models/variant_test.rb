@@ -4,7 +4,7 @@ class VariantTest < ActiveSupport::TestCase
     #list variant
   test "list should return 4 variants" do
     variants = Variant.all
-    assert_equal 4*10, variants.length, "length of variant list wrong"
+    assert_equal 5*20, variants.length, "length of variant list wrong"
   end
 
   #create fail

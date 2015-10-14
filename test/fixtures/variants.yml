@@ -9,20 +9,22 @@
 <% size = %w(all 320x480 320x568 375x667 414x736 768x1024) %>
 <% language = %w(all en zh de fr it) %>
 
-<% 4.times do |n| %>
-  variant_9_asset_<%= n %>:
+#for all assets, variant(all, all, all) exists
+<% 5.times do |n| %>
+  variant_19_asset_<%= n %>:
     device: all
     size: all
     language: all
     asset: asset_<%= n%>
 <% end %>
 
-<% 4.times do |n| %>
-  <% 9.times do |m| %>
+#for any asset, variant(iPad, 768x1024, it) does not exist
+<% 5.times do |n| %>
+  <% 19.times do |m| %>
   variant_<%= m %>_asset_<%= n %>:
-    device: <%= device[rand(device.length)] %>
-    size: <%= size[rand(size.length)] %>
-    language: <%= language[rand(language.length)] %>
+    device: <%= device[rand(device.length-1)] %>
+    size: <%= size[rand(size.length-1)] %>
+    language: <%= language[rand(language.length-1)] %>
     asset: asset_<%= n%>
   <% end %>
 <% end %>

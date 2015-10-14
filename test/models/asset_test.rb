@@ -4,7 +4,7 @@ class AssetTest < ActiveSupport::TestCase
   #list asset
   test "list should return 4 assets" do
     assets = Asset.all
-    assert_equal 4, assets.length, "length of asset list wrong"
+    assert_equal 5, assets.length, "length of asset list wrong"
   end
 
   #create fail
